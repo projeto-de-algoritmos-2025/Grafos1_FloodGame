@@ -1,11 +1,13 @@
 const canvas = document.getElementById('gridCanvas');
 const ctx = canvas.getContext('2d');
-const sideOfSquare = 20;
+const sideOfSquare = 40;
 let cols, rows;
 
 const vizinhos = [
   [1, 0], [-1, 0], [0, -1], [0, 1]
 ];
+
+const colors = ['red', 'blue', 'green', 'yellow'];
 
 // Função para calcular o tamanho do grid com base no tamanho da tela
 const calculateGridSize = () => {
@@ -70,6 +72,43 @@ const bfs = async (startX, startY) => {
   }
 };
 
+// Gera regioes agrupadas de diversas cores
+const generateRandomGroups = () => {
+  const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
+
+  for (let x = 0; x < rows; x++) {
+    for (let y = 0; y < cols; y++) {
+      if (visited[x][y]) continue;
+
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const queue = [[x, y]];
+      visited[x][y] = true;
+
+      while (queue.length > 0) {
+        const [cx, cy] = queue.shift();
+        fillCell(cx, cy, color);
+
+        for (const [dx, dy] of vizinhos) {
+          const nx = cx + dx;
+          const ny = cy + dy;
+
+          if (
+            nx >= 0 && nx < rows &&
+            ny >= 0 && ny < cols &&
+            !visited[nx][ny] &&
+            Math.random() < 0.46 // taxa de agrupamento
+          ) {
+            visited[nx][ny] = true;
+            queue.push([nx, ny]);
+          }
+        }
+      }
+    }
+  }
+};
+
+
+
 // Quando o canvas é clicado, inicia o flood fill
 canvas.addEventListener('click', (event) => {
   const rect = canvas.getBoundingClientRect();
@@ -78,6 +117,6 @@ canvas.addEventListener('click', (event) => {
   bfs(x, y); // Inicia a BFS no quadrado clicado
 });
 
-// Inicializa a grid
 calculateGridSize();
 drawGrid();
+generateRandomGroups();
