@@ -1,6 +1,6 @@
 let activeColor = 'red'; // cor padrão
 let score = 0; // Contador para a pontuação
-const sideOfSquare = 10;
+let sideOfSquare = 50;
 
 // Adicionando o evento para destacar o botão clicado
 document.querySelectorAll('#color-buttons button').forEach(button => {
@@ -17,6 +17,26 @@ document.querySelectorAll('#color-buttons button').forEach(button => {
     activeColor = button.dataset.color;
   });
 });
+
+document.querySelectorAll('#difficulty-buttons button').forEach(button => {
+  button.addEventListener('click', () => {
+    // Atualiza o sideOfSquare
+    sideOfSquare = parseInt(button.dataset.size);
+
+    // Marca botão ativo
+    document.querySelectorAll('#difficulty-buttons button').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+
+    // Recalcula grid
+    score = 0;
+    updateScore();
+    calculateGridSize();
+    drawGrid();
+    generateRandomGroups();
+  });
+});
+
+
 
 const canvas = document.getElementById('gridCanvas');
 const ctx = canvas.getContext('2d');
@@ -124,7 +144,7 @@ const generateRandomGroups = () => {
             nx >= 0 && nx < rows &&
             ny >= 0 && ny < cols &&
             !visited[nx][ny] &&
-            Math.random() < 0.47 // taxa de agrupamento
+            Math.random() < 0.45 // taxa de agrupamento
           ) {
             visited[nx][ny] = true;
             queue.push([nx, ny]);

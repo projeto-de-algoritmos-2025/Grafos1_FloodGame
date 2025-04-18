@@ -1,0 +1,120 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #0f0f0f, #1a1a1a);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    color: #00ffcc;
+  }
+
+  #main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #00ffcc55;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #111;
+    box-shadow: 0 0 20px #00ffcc44;
+  }
+
+  canvas {
+    border: 2px solid #00ffcc88;
+    background-color: #222;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+
+  #color-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #color-section h2 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-shadow: 0 0 5px #00ffcc;
+  }
+
+  #color-buttons {
+    display: flex;
+    gap: 12px;
+  }
+
+  #color-buttons button {
+    width: 60px;
+    height: 40px;
+    border-radius: 6px;
+    border: 2px solid #00ffcc88;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.1s, box-shadow 0.2s;
+  }
+
+  #color-buttons button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px #00ffcc;
+  }
+
+  #color-buttons button.selected {
+    box-shadow: 0 0 15px #ffffff, 0 0 8px #00ffcc, inset 0 0 5px white;
+    border: 2px solid white;
+    transform: scale(1.15);
+  }
+
+  #score-container {
+    font-size: 34px;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  #difficulty-section {
+    margin-top: 20px;
+    text-align: center;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+  }
+
+  #difficulty-buttons {
+    margin-top: 8px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  #difficulty-buttons button {
+    padding: 8px 16px;
+    border: 2px solid #888;
+    background-color: #222;
+    color: #eee;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-family: 'Courier New', monospace;
+  }
+
+  #difficulty-buttons button:hover {
+    background-color: #444;
+    border-color: #bbb;
+    transform: scale(1.05);
+  }
+
+  #difficulty-buttons button.active {
+    background-color: #0f0;
+    border-color: #0f0;
+    color: black;
+  }
+
+  #game-title {
+    font-family: 'Orbitron', sans-serif;
+    color: #00ffcc;
+    text-shadow: 2px 2px 10px #000;
+    font-size: 48px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
