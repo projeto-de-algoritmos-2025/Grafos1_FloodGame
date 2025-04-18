@@ -1,14 +1,25 @@
 let activeColor = 'red'; // cor padrão
+let score = 0; // Contador para a pontuação
+const sideOfSquare = 10;
 
+// Adicionando o evento para destacar o botão clicado
 document.querySelectorAll('#color-buttons button').forEach(button => {
   button.addEventListener('click', () => {
+    // Remove a classe 'selected' de todos os botões
+    document.querySelectorAll('#color-buttons button').forEach(b => {
+      b.classList.remove('selected');
+    });
+
+    // Adiciona a classe 'selected' ao botão clicado
+    button.classList.add('selected');
+
+    // Atualiza a cor ativa
     activeColor = button.dataset.color;
   });
 });
 
 const canvas = document.getElementById('gridCanvas');
 const ctx = canvas.getContext('2d');
-const sideOfSquare = 20;
 let cols, rows;
 
 const vizinhos = [
@@ -48,7 +59,7 @@ const fillCell = (x, y, color) => {
 };
 
 // Função delay para controle da animação
-function delay(ms) {
+const delay = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -89,7 +100,6 @@ const bfs = async (startX, startY) => {
   }
 };
 
-
 //Gera regioes agrupadas de diversas cores
 const generateRandomGroups = () => {
   const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
@@ -125,12 +135,18 @@ const generateRandomGroups = () => {
   }
 };
 
+// Atualizando o score na tela
+const updateScore = () => {
+  const scoreElement = document.getElementById('score');
+  scoreElement.textContent = `Score: ${score}`;
+};
 
-// Quando o canvas é clicado, inicia o flood fill
+// Quando o canvas é clicado, inicia o flood fill e incrementa o score
 canvas.addEventListener('click', (event) => {
   const rect = canvas.getBoundingClientRect();
   const x = Math.floor((event.clientY - rect.top) / sideOfSquare);
   const y = Math.floor((event.clientX - rect.left) / sideOfSquare);
+  updateScore(score++);
   bfs(x, y); // Inicia a BFS no quadrado clicado
 });
 
