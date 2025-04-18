@@ -1,6 +1,14 @@
+let activeColor = 'red'; // cor padrão
+
+document.querySelectorAll('#color-buttons button').forEach(button => {
+  button.addEventListener('click', () => {
+    activeColor = button.dataset.color;
+  });
+});
+
 const canvas = document.getElementById('gridCanvas');
 const ctx = canvas.getContext('2d');
-const sideOfSquare = 40;
+const sideOfSquare = 20;
 let cols, rows;
 
 const vizinhos = [
@@ -44,17 +52,22 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// BFS
 const bfs = async (startX, startY) => {
   const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
   const fila = [[startX, startY]];
   visited[startX][startY] = true;
-  
+
+  const startColor = ctx.getImageData(startY * sideOfSquare, startX * sideOfSquare, 1, 1).data;
+  const isSameColor = (data) =>
+    data[0] === startColor[0] &&
+    data[1] === startColor[1] &&
+    data[2] === startColor[2];
+
   while (fila.length > 0) {
     const [x, y] = fila.shift();
-    
-    fillCell(x, y, 'red'); // Pinta a célula de vermelho
-    await delay(1); // Espera para a animação não ser instantânea
+
+    fillCell(x, y, activeColor); // pinta com a cor selecionada
+    await delay(1);
 
     for (const [dx, dy] of vizinhos) {
       const nx = x + dx;
@@ -65,14 +78,19 @@ const bfs = async (startX, startY) => {
         ny >= 0 && ny < cols &&
         !visited[nx][ny]
       ) {
-        visited[nx][ny] = true;
-        fila.push([nx, ny]);
+        const neighborColor = ctx.getImageData(ny * sideOfSquare, nx * sideOfSquare, 1, 1).data;
+
+        if (isSameColor(neighborColor)) {
+          visited[nx][ny] = true;
+          fila.push([nx, ny]);
+        }
       }
     }
   }
 };
 
-// Gera regioes agrupadas de diversas cores
+
+//Gera regioes agrupadas de diversas cores
 const generateRandomGroups = () => {
   const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
 
@@ -96,7 +114,7 @@ const generateRandomGroups = () => {
             nx >= 0 && nx < rows &&
             ny >= 0 && ny < cols &&
             !visited[nx][ny] &&
-            Math.random() < 0.46 // taxa de agrupamento
+            Math.random() < 0.47 // taxa de agrupamento
           ) {
             visited[nx][ny] = true;
             queue.push([nx, ny]);
@@ -106,7 +124,6 @@ const generateRandomGroups = () => {
     }
   }
 };
-
 
 
 // Quando o canvas é clicado, inicia o flood fill

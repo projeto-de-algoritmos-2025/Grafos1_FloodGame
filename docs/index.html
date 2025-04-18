@@ -7,20 +7,50 @@
     body {
       margin: 0;
       padding: 0;
+      background-color: #eee;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background-color: #eee;
     }
+
+    #main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     canvas {
       border: 1px solid #ccc;
       cursor: pointer;
     }
+
+    #color-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    #color-buttons button {
+      width: 60px;
+      height: 40px;
+      border: none;
+      cursor: pointer;
+      outline: none;
+    }
   </style>
 </head>
 <body>
-  <canvas id="gridCanvas"></canvas>
+  <div id="main-container">
+    <canvas id="gridCanvas"></canvas>
+    <div id="color-buttons">
+      <button style="background:red;" data-color="red"></button>
+      <button style="background:blue;" data-color="blue"></button>
+      <button style="background:green;" data-color="green"></button>
+      <button style="background:yellow;" data-color="yellow"></button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
