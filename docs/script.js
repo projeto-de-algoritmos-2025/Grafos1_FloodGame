@@ -1,34 +1,28 @@
-let activeColor = 'red'; // cor padrão
-let score = 0; // Contador para a pontuação
+let activeColor = 'red';
+let score = 0;
 let sideOfSquare = 50;
 let showAnimation = true;
 
-// Adicionando o evento para destacar o botão clicado
 document.querySelectorAll('#color-buttons button').forEach(button => {
   button.addEventListener('click', () => {
-    // Remove a classe 'selected' de todos os botões
+
     document.querySelectorAll('#color-buttons button').forEach(b => {
       b.classList.remove('selected');
     });
 
-    // Adiciona a classe 'selected' ao botão clicado
     button.classList.add('selected');
 
-    // Atualiza a cor ativa
     activeColor = button.dataset.color;
   });
 });
 
 document.querySelectorAll('#difficulty-buttons button').forEach(button => {
   button.addEventListener('click', () => {
-    // Atualiza o sideOfSquare
     sideOfSquare = parseInt(button.dataset.size);
 
-    // Marca botão ativo
     document.querySelectorAll('#difficulty-buttons button').forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
 
-    // Recalcula grid
     score = 0;
     updateScore();
     calculateGridSize();
@@ -53,7 +47,6 @@ const vizinhos = [
 
 const colors = ['red', 'blue', 'green', 'yellow'];
 
-// Função para calcular o tamanho do grid com base no tamanho da tela
 const calculateGridSize = () => {
   const availableWidth = window.innerWidth * 0.8;
   const availableHeight = window.innerHeight * 0.75;
@@ -65,9 +58,8 @@ const calculateGridSize = () => {
   canvas.height = rows * sideOfSquare;
 };
 
-// Função para desenhar a grid no canvas
 const drawGrid = () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let x = 0; x < rows; x++) {
     for (let y = 0; y < cols; y++) {
@@ -77,13 +69,11 @@ const drawGrid = () => {
   }
 };
 
-// Função para preencher a célula no canvas
 const fillCell = (x, y, color) => {
   ctx.fillStyle = color;
   ctx.fillRect(y * sideOfSquare, x * sideOfSquare, sideOfSquare, sideOfSquare);
 };
 
-// Função delay para controle da animação
 const delay = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -102,7 +92,7 @@ const bfs = async (startX, startY) => {
   while (fila.length > 0) {
     const [x, y] = fila.shift();
 
-    fillCell(x, y, activeColor); // pinta com a cor selecionada
+    fillCell(x, y, activeColor);
     if (showAnimation) await delay(1);
 
     for (const [dx, dy] of vizinhos) {
@@ -125,7 +115,6 @@ const bfs = async (startX, startY) => {
   }
 };
 
-//Gera regioes agrupadas de diversas cores
 const generateRandomGroups = () => {
   const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
 
@@ -149,7 +138,7 @@ const generateRandomGroups = () => {
             nx >= 0 && nx < rows &&
             ny >= 0 && ny < cols &&
             !visited[nx][ny] &&
-            Math.random() < 0.45 // taxa de agrupamento
+            Math.random() < 0.45
           ) {
             visited[nx][ny] = true;
             queue.push([nx, ny]);
@@ -160,19 +149,17 @@ const generateRandomGroups = () => {
   }
 };
 
-// Atualizando o score na tela
 const updateScore = () => {
   const scoreElement = document.getElementById('score');
   scoreElement.textContent = `Buscas: ${score}`;
 };
 
-// Quando o canvas é clicado, inicia o flood fill e incrementa o score
 canvas.addEventListener('click', (event) => {
   const rect = canvas.getBoundingClientRect();
   const x = Math.floor((event.clientY - rect.top) / sideOfSquare);
   const y = Math.floor((event.clientX - rect.left) / sideOfSquare);
   updateScore(score++);
-  bfs(x, y); // Inicia a BFS no quadrado clicado
+  bfs(x, y);
 });
 
 calculateGridSize();
