@@ -118,3 +118,34 @@ body {
     margin-bottom: 20px;
     text-align: center;
   }
+
+  #control-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  
+  #animation-toggle button {
+    padding: 10px 16px;
+    border-radius: 6px;
+    background-color: #222;
+    color: #0ff;
+    border: 2px solid #0ff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  #animation-toggle button.active {
+    
+    box-shadow: 0 0 15px #ffffff, 0 0 8px #00ffcc, inset 0 0 5px white;
+    border: 2px solid white;
+    transform: scale(1.15);
+
+    background-color: #0ff;
+    color: #000;
+  }
+  

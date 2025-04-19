@@ -1,6 +1,7 @@
 let activeColor = 'red'; // cor padrão
 let score = 0; // Contador para a pontuação
 let sideOfSquare = 50;
+let showAnimation = true;
 
 // Adicionando o evento para destacar o botão clicado
 document.querySelectorAll('#color-buttons button').forEach(button => {
@@ -36,6 +37,12 @@ document.querySelectorAll('#difficulty-buttons button').forEach(button => {
   });
 });
 
+
+const animationButton = document.getElementById('toggle-visual');
+animationButton.addEventListener('click', () => {
+  showAnimation = !showAnimation;
+  animationButton.classList.toggle('active', showAnimation);
+});
 
 
 const canvas = document.getElementById('gridCanvas');
@@ -83,6 +90,8 @@ const delay = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+
+
 const bfs = async (startX, startY) => {
   const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
   const fila = [[startX, startY]];
@@ -98,7 +107,7 @@ const bfs = async (startX, startY) => {
     const [x, y] = fila.shift();
 
     fillCell(x, y, activeColor); // pinta com a cor selecionada
-    await delay(1);
+    if (showAnimation) await delay(1);
 
     for (const [dx, dy] of vizinhos) {
       const nx = x + dx;

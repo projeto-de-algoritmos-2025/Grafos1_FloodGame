@@ -17,25 +17,25 @@
     
     <canvas id="gridCanvas"></canvas>
 
-    <div id="color-section">
-      <h2>Selecionar cor para preencher</h2>
+    <div id="control-panel">
       <div id="color-buttons">
         <button class="selected" style="background:red;" data-color="red"></button>
         <button style="background:blue;" data-color="blue"></button>
         <button style="background:green;" data-color="green"></button>
         <button style="background:yellow;" data-color="yellow"></button>
       </div>
-    </div>
-
-    <div id="difficulty-section">
-      <span>Selecionar dificuldade:</span>
+    
       <div id="difficulty-buttons">
         <button class="active" data-size="50">Fácil</button>
         <button data-size="25">Médio</button>
         <button data-size="10">Difícil</button>
       </div>
+    
+      <div id="animation-toggle">
+        <button id="toggle-visual" class="active">Visualizar BFS</button>
+      </div>
     </div>
-  </div>
+    
 
   <script src="script.js"></script>
 </body>
