@@ -37,13 +37,11 @@ document.querySelectorAll('#difficulty-buttons button').forEach(button => {
   });
 });
 
-
 const animationButton = document.getElementById('toggle-visual');
 animationButton.addEventListener('click', () => {
   showAnimation = !showAnimation;
   animationButton.classList.toggle('active', showAnimation);
 });
-
 
 const canvas = document.getElementById('gridCanvas');
 const ctx = canvas.getContext('2d');
@@ -89,8 +87,6 @@ const fillCell = (x, y, color) => {
 const delay = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-
 
 const bfs = async (startX, startY) => {
   const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
@@ -167,7 +163,7 @@ const generateRandomGroups = () => {
 // Atualizando o score na tela
 const updateScore = () => {
   const scoreElement = document.getElementById('score');
-  scoreElement.textContent = `Score: ${score}`;
+  scoreElement.textContent = `Buscas: ${score}`;
 };
 
 // Quando o canvas é clicado, inicia o flood fill e incrementa o score
